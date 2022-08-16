@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
+import Error from './Error';
 
-const Form = () => {
+const Form = ({patients, setPatients}) => {
   const [name, setName] = useState('');
   const [owner, setOwner] = useState('');
   const [email, setEmail] = useState('');
@@ -8,6 +9,13 @@ const Form = () => {
   const [symptoms, setSymptoms] = useState('');
 
   const [error, setError] = useState(false)
+
+  const generateId = () => {
+    const random = Math.random().toString(36).substring(2);
+    const date = Date.now().toString(36)
+
+    return random + date;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +29,27 @@ const Form = () => {
     } 
 
     setError(false)
+
+    // Patient object
+    const patientObject = {
+      name, 
+      owner, 
+      email, 
+      date, 
+      symptoms,
+      id: generateId()
+    }
+
+    // console.log(patientObject);
+
+    setPatients([...patients, patientObject]);
+
+    // Restart form
+    setName('')
+    setOwner('')
+    setEmail('')
+    setDate('')
+    setSymptoms('')
   }
 
   return (
@@ -36,11 +65,7 @@ const Form = () => {
             onSubmit={handleSubmit}
             className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
 
-            {error && (
-              <div className='bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-md'>
-                <p>All fields are required</p>
-              </div>
-            )}
+            {error && <Error><p>All fields are required</p> </Error>}
 
         <div className="mb-5">
           <label htmlFor="pet" className="block text-gray-700 uppercase font-bold">
