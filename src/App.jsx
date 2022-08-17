@@ -6,6 +6,7 @@ import PatientsList from "./components/PatientsList"
 function App() {
 
   const [patients, setPatients] = useState([]);
+  const [patient, setPatient] = useState({});
 
 
   return (
@@ -16,9 +17,11 @@ function App() {
         <Form
           patients={patients}
           setPatients={setPatients}
+          patient={patient}
         />
         <PatientsList 
           patients={patients}
+          setPatient={setPatient}
         />
       </div>
     </div>
