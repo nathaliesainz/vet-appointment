@@ -10,7 +10,16 @@ const Form = ({patients, setPatients, patient}) => {
 
   const [error, setError] = useState(false)
 
-  console.log(patient);
+  useEffect(() => {
+    if (Object.keys(patient).length > 0){
+      setName(patient.name)
+      setOwner(patient.owner)
+      setEmail(patient.email)
+      setDate(patient.date)
+      setSymptoms(patient.symptoms)
+    }
+  }, [patient] )
+  
 
   const generateId = () => {
     const random = Math.random().toString(36).substring(2);
@@ -141,7 +150,7 @@ const Form = ({patients, setPatients, patient}) => {
           type="submit"
           className="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700
           cursor-pointer transition-colors"
-          value="Add Patient"
+          value={patient.id ? "Edit Patient" : "Add Patient"}
         />
 
       </form>
