@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import Error from './Error';
 
-const Form = ({patients, setPatients, patient}) => {
+const Form = ({patients, setPatients, patient, setPatient}) => {
   const [name, setName] = useState('');
   const [owner, setOwner] = useState('');
   const [email, setEmail] = useState('');
@@ -47,13 +47,22 @@ const Form = ({patients, setPatients, patient}) => {
       owner, 
       email, 
       date, 
-      symptoms,
-      id: generateId()
+      symptoms
     }
 
-    // console.log(patientObject);
+    if (patient.id) {
+      // Editing registry
+      patientObject.id = patient.id
+      const patientsUpdated = patients.map( patientState => patientState.id ===
+        patient.id ? patientObject : patientState )
 
-    setPatients([...patients, patientObject]);
+        setPatients(patientsUpdated)
+        setPatient({})
+    } else {
+      // New registry
+      patientObject.id = generateId();
+      setPatients([...patients, patientObject]);
+    }
 
     // Restart form
     setName('')
